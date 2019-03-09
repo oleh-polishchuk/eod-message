@@ -11,3 +11,14 @@ To publish new version:
 
     npm version patch
     npm publish
+
+## Google Cloud
+
+To login in gcloud
+
+    gcloud auth login
+    
+To change current project
+
+    gcloud config set project eod-slack-message
+    
