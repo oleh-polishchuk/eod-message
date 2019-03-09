@@ -1,6 +1,6 @@
 {
   "name": "eod-message",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "App to generate &amp; send EOD (end-of-the-day) message into Slack",
   "main": "index.js",
   "scripts": {
