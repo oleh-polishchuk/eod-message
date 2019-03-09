@@ -3,8 +3,9 @@ const moment = require('moment');
 const harvest = require('./harvest');
 const asana = require('./asana');
 const EODMessage = require('./EODMessage');
+const { WebClient } = require('@slack/client');
 
-async function init() {
+(async () => {
     const from = moment()
         .set({ hour: 0, minute: 0, second: 0 })
         .format("YYYY-MM-DDTHH:mm:ss");
@@ -38,7 +39,11 @@ async function init() {
     tasks.map(task => eodMessage.addTask(task));
     const slackMessage = eodMessage.build();
 
-    console.log(slackMessage);
-}
+    const web = new WebClient(process.env.SLACK_TOKEN);
+    const res = await web.chat.postMessage({
+        channel: `${process.env.SLACK_CONVERSATION_ID}`,
+        text: slackMessage
+    });
 
-init().catch(error => console.log(error));
+    console.log(res);
+})();

@@ -14,7 +14,7 @@ class EODMessage {
 
         const endTask = this.tasks[this.tasks.length - 1];
 
-        let message = "@Hadar *EOD* \n";
+        let message = `<@${process.env.SLACK_USER_ID}> *EOD*`;
         this.tasks.forEach(task => {
             message += `1. I did ${task.name} - ${task.permalink} - *${task.status}* \n`;
         });
