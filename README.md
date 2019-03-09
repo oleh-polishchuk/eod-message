@@ -22,3 +22,7 @@ To change current project
 
     gcloud config set project eod-slack-message
     
+To deploy project
+
+    gcloud app deploy app.yaml -q
+
