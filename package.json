@@ -9,5 +9,9 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/oleh-polishchuk/eod-message.git"
+  },
+  "dependencies": {
+    "axios": "0.18.0",
+    "dotenv": "6.2.0"
   }
 }
