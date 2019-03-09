@@ -1,6 +1,7 @@
 const config = require('dotenv').config();
 const harvest = require('./harvest');
 const asana = require('./asana');
+const EODMessage = require('./EODMessage');
 
 async function init() {
     const timeEntries = await harvest.getTimeEntries({ from: "2019-03-08T00:00:00Z" });
@@ -25,7 +26,11 @@ async function init() {
             }
         });
 
-    console.log(`==> tasks:`, tasks);
+    const eodMessage = new EODMessage();
+    tasks.map(task => eodMessage.addTask(task));
+    const slackMessage = eodMessage.build();
+
+    console.log(slackMessage);
 }
 
 init().catch(error => console.log(error));
