@@ -1,10 +1,18 @@
 const config = require('dotenv').config();
+const moment = require('moment');
 const harvest = require('./harvest');
 const asana = require('./asana');
 const EODMessage = require('./EODMessage');
 
 async function init() {
-    const timeEntries = await harvest.getTimeEntries({ from: "2019-03-08T00:00:00Z" });
+    const from = moment()
+        .set({ hour: 0, minute: 0, second: 0 })
+        .format("YYYY-MM-DDTHH:mm:ss");
+
+    const timeEntries = await harvest.getTimeEntries({ from });
+    if (!timeEntries || (Array.isArray(timeEntries) && !timeEntries.length)) {
+        console.log(`==> There are no time entries from ${from}`)
+    }
 
     const harvestTasks = timeEntries
         .map(timeEntry => ({

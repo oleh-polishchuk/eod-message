@@ -11,7 +11,9 @@
     "url": "git+https://github.com/oleh-polishchuk/eod-message.git"
   },
   "dependencies": {
+    "@slack/client": "4.11.0",
     "axios": "0.18.0",
-    "dotenv": "6.2.0"
+    "dotenv": "6.2.0",
+    "moment": "2.24.0"
   }
 }
