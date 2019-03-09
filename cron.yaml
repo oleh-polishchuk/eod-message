@@ -1,0 +1,4 @@
+cron:
+  - description: "daily summary job"
+    url: /eod-message/send
+    schedule: every mon,tue,wed,thu,fri 18:00
