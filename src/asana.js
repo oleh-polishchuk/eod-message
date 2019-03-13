@@ -15,6 +15,8 @@ const getTaskById = async ({ id }) => {
     return res.data.data;
 };
 
+const createPermalink = (projectId, taskId) => `https://app.asana.com/0/${projectId}/${taskId}`;
+
 module.exports.getTasks = async (timeEntries) => {
     const ids = timeEntries.map(_ => (_.id));
     if (!ids || !Array.isArray(ids) || !ids.length) {
@@ -23,14 +25,14 @@ module.exports.getTasks = async (timeEntries) => {
 
     const $promises = ids.map(id => getTaskById({ id }));
     const asanaTasks = await Promise.all($promises);
-    return asanaTasks
-        .map(asanaTask => {
-            const harvestTask = timeEntries
-                .find(harvestTask => harvestTask.id.toString() === asanaTask.id.toString());
-            return {
-                ...harvestTask,
-                name: asanaTask.name,
-                status: asanaTask.memberships[ 0 ].section.name,
-            }
-        });
+    return asanaTasks.map(asanaTask => {
+        const membership = asanaTask.memberships[ 0 ];
+        const project = membership.project;
+        const section = membership.section;
+        return {
+            name: asanaTask.name,
+            permalink: createPermalink(project.id, section.id),
+            status: section.name,
+        }
+    });
 };

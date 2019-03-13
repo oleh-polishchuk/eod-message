@@ -1,6 +1,6 @@
 const config = require('dotenv').config();
 const app = require('express')();
-const api = require("./api");
+const api = require("./src/api");
 
 app.get('/', (req, res) => res.send('Hello World!'));
 
