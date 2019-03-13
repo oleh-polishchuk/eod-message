@@ -4,7 +4,8 @@ module.exports.sendMessage = async (message) => {
     const web = new WebClient(process.env.SLACK_TOKEN);
     const res = await web.chat.postMessage({
         channel: `${process.env.SLACK_CONVERSATION_ID}`,
-        text: message
+        text: message,
+        as_user: true,
     });
 
     if (!res || !res.ok) {
