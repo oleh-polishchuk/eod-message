@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node index.js",
     "deploy": "gcloud app deploy app.yaml -q",
-    "deploy-cron": "gcloud app deploy cron.yaml -q"
+    "deploy-cron": "gcloud app deploy cron.yaml -q",
+    "publish": "npm version patch ; npm publish"
   },
   "repository": {
     "type": "git",
