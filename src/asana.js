@@ -24,7 +24,14 @@ module.exports.getTasks = async (timeEntries) => {
     }
 
     const $promises = ids.map(id => getTaskById({ id }));
-    const asanaTasks = await Promise.all($promises);
+    const asanaTasks = [];
+    const allTasks = await Promise.all($promises);
+    allTasks.map(task => {
+        const asanaTask = asanaTasks.find(at => at && (at.id === task.id));
+        if (!asanaTask) {
+            asanaTasks.push(task)
+        }
+    });
     return asanaTasks.map(asanaTask => {
         const membership = asanaTask.memberships[ 0 ];
         const project = membership.project;
