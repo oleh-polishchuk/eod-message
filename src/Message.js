@@ -14,12 +14,13 @@ class Message {
     build() {
         if (!this.tasks.length) return "No tasks found today.";
 
-        const endTask = this.tasks[ this.tasks.length - 1 ];
+        const endTask = this.tasks.find(t => t.status === "Doing - Development");
 
         let message = `<@${process.env.SLACK_USER_ID}> *EOD* \n`;
-        message += this.tasks
-            .sort((a, b) => b.localeCompare(a))
+        const tasks = this.tasks
+            .sort((a, b) => b.name.localeCompare(a.name))
             .reduce((msg, task) => msg += createMessage(task), '');
+        message += tasks.toString();
         message += `\n`;
         message += `*Tomorrow* \n`;
         message += `I will continue with ${endTask.name}`;
