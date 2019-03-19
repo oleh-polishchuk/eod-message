@@ -5,8 +5,8 @@ const api = require("./src/api");
 app.get('/', (req, res) => res.send('Hello World!'));
 
 app.get('/eod-message', (req, res) => {
-    api.getEODMessage(req.query.from).then(value => {
-        res.send(`<pre>${value}</pre>`)
+    api.getEODMessage(req.query.from).then(message => {
+        res.send(`<pre>${message.text}</pre>`)
     }).catch(reason => {
         res.send(reason)
     })

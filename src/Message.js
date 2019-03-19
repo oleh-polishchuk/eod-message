@@ -14,20 +14,29 @@ class Message {
     build() {
         if (!this.tasks.length) return "No tasks found today.";
 
+        let channel = process.env.SLACK_BUNDLE_CONVERSATION_ID;
         const endTask = this.tasks.find(t => t.status.includes('Doing'));
 
-        let message = `<@${process.env.SLACK_USER_ID}> *EOD* \n`;
+        let text = `<@${process.env.SLACK_USER_ID}> *EOD* \n`;
         const tasks = this.tasks
             .sort((a, b) => b.name.localeCompare(a.name))
             .reduce((msg, task) => msg += createMessage(task), '');
-        message += tasks.toString();
-        message += `\n`;
+        text += tasks.toString();
+        text += `\n`;
         if (endTask && endTask.name) {
-            message += `*Tomorrow* \n`;
-            message += `I will continue with ${endTask.name}`;
+            text += `*Tomorrow* \n`;
+            text += `I will continue with ${endTask.name}`;
+
+            if (endTask.name.includes('[WV]')) {
+                channel = process.env.SLACK_WOVENLY_CONVERSATION_ID;
+            } else if (endTask.name.includes('[BUN]')) {
+                channel = process.env.SLACK_BUNDLE_CONVERSATION_ID;
+            } else if (endTask.name.includes('[AW]')) {
+                channel = process.env.SLACK_AWARA_CONVERSATION_ID;
+            }
         }
 
-        return message;
+        return { text, channel };
     }
 
 }
