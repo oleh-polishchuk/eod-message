@@ -14,7 +14,7 @@ class Message {
     build() {
         if (!this.tasks.length) return "No tasks found today.";
 
-        const endTask = this.tasks.find(t => t.status === "Doing - Development");
+        const endTask = this.tasks.find(t => t.status.includes('Doing'));
 
         let message = `<@${process.env.SLACK_USER_ID}> *EOD* \n`;
         const tasks = this.tasks
@@ -22,8 +22,10 @@ class Message {
             .reduce((msg, task) => msg += createMessage(task), '');
         message += tasks.toString();
         message += `\n`;
-        message += `*Tomorrow* \n`;
-        message += `I will continue with ${endTask.name}`;
+        if (endTask && endTask.name) {
+            message += `*Tomorrow* \n`;
+            message += `I will continue with ${endTask.name}`;
+        }
 
         return message;
     }
