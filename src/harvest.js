@@ -18,11 +18,16 @@ module.exports.getTimeEntries = async function getTimeEntries(from) {
     }
 
     const timeEntries = res.data.time_entries
-        .map(timeEntry => ({
-            notes: timeEntry.notes,
-            id: timeEntry.external_reference.id,
-            permalink: timeEntry.external_reference.permalink,
-        }));
+        .map(timeEntry => {
+            const externalReference = timeEntry.external_reference;
+
+            return {
+                notes: timeEntry.notes,
+                id: externalReference && externalReference.id,
+                permalink: externalReference && externalReference.permalink,
+            }
+        })
+        .filter(timeEntry => timeEntry.notes && timeEntry.id && timeEntry.permalink);
 
     if (!timeEntries || (Array.isArray(timeEntries) && !timeEntries.length)) {
         throw new Error(`==> There are no time entries from ${from}`);

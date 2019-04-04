@@ -1,4 +1,4 @@
-const createMessage = (task) => `1. I did ${task.name} - ${task.permalink} - *${task.status}* \n`;
+const createMessage = (task, i) => `${ i + 1 }. I did ${ task.name } - ${ task.permalink } - *${ task.status }* \n`;
 
 class Message {
 
@@ -20,7 +20,7 @@ class Message {
         let text = `<@${process.env.SLACK_USER_ID}> *EOD* \n`;
         const tasks = this.tasks
             .sort((a, b) => b.name.localeCompare(a.name))
-            .reduce((msg, task) => msg += createMessage(task), '');
+            .reduce((msg, task, i) => msg += createMessage(task, i), '');
         text += tasks.toString();
         text += `\n`;
         if (endTask && endTask.name) {

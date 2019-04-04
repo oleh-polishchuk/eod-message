@@ -32,8 +32,14 @@ module.exports.getTasks = async (timeEntries) => {
             asanaTasks.push(task)
         }
     });
-    return asanaTasks.map(asanaTask => {
-        const membership = asanaTask.memberships[ 0 ];
+    const $asanaTaskPromises = asanaTasks.map(async asanaTask => {
+        let membership = asanaTask.memberships[ 0 ];
+        if (!membership) {
+            const parentId = asanaTask.parent.id;
+            const parentAsanaTask = await getTaskById({ id: parentId });
+            membership = parentAsanaTask.memberships[ 0 ];
+        }
+
         const project = membership.project;
         const section = membership.section;
         return {
@@ -42,4 +48,6 @@ module.exports.getTasks = async (timeEntries) => {
             status: section.name,
         }
     });
+
+    return await Promise.all($asanaTaskPromises);
 };
