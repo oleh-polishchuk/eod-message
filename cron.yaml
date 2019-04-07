@@ -1,4 +1,4 @@
 cron:
-  - description: "daily summary job every mon,tue,wed,thu,fri at 15:00"
-    url: /eod-message/send
+  - description: "Send EOD message"
+    url: /api/message/send
     schedule: every mon,tue,wed,thu,fri 15:00

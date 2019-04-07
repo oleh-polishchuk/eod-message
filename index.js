@@ -1,23 +1,14 @@
 const config = require('dotenv').config();
-const app = require('express')();
-const api = require("./src/api");
+const path = require('path');
+const express = require('express');
+const app = express();
 
-app.get('/', (req, res) => res.send('Hello World!'));
+app.set('view engine', 'ejs');
 
-app.get('/eod-message', (req, res) => {
-    api.getEODMessage(req.query.from).then(message => {
-        res.send(`<pre>${message.text}</pre>`)
-    }).catch(reason => {
-        res.send(reason)
-    })
+app.use('/public', express.static(path.resolve(__dirname, 'public')));
+app.use('/api/message', require('./routes/api/message'));
+app.use('/', require('./routes/view/home'));
+
+app.listen(process.env.PORT, () => {
+    console.log(`App running on http://localhost:${ process.env.PORT }/`);
 });
-
-app.get('/eod-message/send', (req, res) => {
-    api.sendEODMessage(req.query.from).then(value => {
-        res.send(`<pre>${JSON.stringify(value, null, 2)}</pre>`)
-    }).catch(reason => {
-        res.send(reason)
-    })
-});
-
-app.listen(process.env.PORT, () => console.log(`Example app listening on port ${process.env.PORT}!`));
