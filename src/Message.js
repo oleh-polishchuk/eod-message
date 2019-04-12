@@ -1,4 +1,4 @@
-const createMessage = (task, i) => `${ i + 1 }. I did ${ task.name } - ${ task.permalink } - *${ task.status }* \n`;
+const createMessage = (task, i) => `${i + 1}. I did ${task.name} - ${task.permalink} - *${task.status}* \n`;
 
 class Message {
 
@@ -26,14 +26,7 @@ class Message {
         if (endTask && endTask.name) {
             text += `*Tomorrow* \n`;
             text += `I will continue with ${endTask.name}`;
-
-            if (endTask.name.includes('[WV]')) {
-                channel = process.env.SLACK_WOVENLY_CONVERSATION_ID;
-            } else if (endTask.name.includes('[BUN]')) {
-                channel = process.env.SLACK_BUNDLE_CONVERSATION_ID;
-            } else if (endTask.name.includes('[AW]')) {
-                channel = process.env.SLACK_AWARA_CONVERSATION_ID;
-            }
+            channel = process.env.SLACK_EOD_CONVERSATION_ID;
         }
 
         return { text, channel };
