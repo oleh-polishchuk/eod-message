@@ -17,7 +17,8 @@ class Message {
         let channel = process.env.SLACK_BUNDLE_CONVERSATION_ID;
         const endTask = this.tasks.find(t => t.status.includes('Doing'));
 
-        let text = `<@${process.env.SLACK_USER_ID}> *EOD* \n`;
+        let text = `#*EOD*: \n`;
+        text += `_Today_:\n`;
         const tasks = this.tasks
             .sort((a, b) => b.name.localeCompare(a.name))
             .reduce((msg, task, i) => msg += createMessage(task, i), '');
