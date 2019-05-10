@@ -14,7 +14,7 @@ class Message {
     build() {
         if (!this.tasks.length) return "No tasks found today.";
 
-        let channel = process.env.SLACK_BUNDLE_CONVERSATION_ID;
+        let channel = process.env.SLACK_EOD_CONVERSATION_ID;
         const endTask = this.tasks.find(t => t.status.includes('Doing'));
 
         let text = `#*EOD*: \n`;
@@ -27,7 +27,6 @@ class Message {
         if (endTask && endTask.name) {
             text += `*Tomorrow* \n`;
             text += `I will continue with ${endTask.name}`;
-            channel = process.env.SLACK_EOD_CONVERSATION_ID;
         }
 
         return { text, channel };
