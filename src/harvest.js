@@ -5,6 +5,7 @@ module.exports.getTimeEntries = async function getTimeEntries(from) {
         .get(`https://api.harvestapp.com/v2/time_entries`, {
             params: {
                 from: from,
+                to: from,
             },
             headers: {
                 'Authorization': `Bearer ${process.env.HARVEST_BEARER_TOCKEN}`,
@@ -25,6 +26,8 @@ module.exports.getTimeEntries = async function getTimeEntries(from) {
                 notes: timeEntry.notes,
                 id: externalReference && externalReference.id,
                 permalink: externalReference && externalReference.permalink,
+                hours: timeEntry.hours,
+                spentDate: timeEntry.spent_date,
             }
         })
         .filter(timeEntry => timeEntry.notes && timeEntry.id && timeEntry.permalink);

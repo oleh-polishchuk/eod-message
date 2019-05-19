@@ -42,10 +42,14 @@ module.exports.getTasks = async (timeEntries) => {
 
         const project = membership.project;
         const section = membership.section;
+
+        const harvestTimeEntry = timeEntries.find(timeEntry => timeEntry.id === asanaTask.gid);
         return {
             name: asanaTask.name,
             permalink: createPermalink(project.id, section.id),
             status: section.name,
+            hours: harvestTimeEntry.hours,
+            spentDate: harvestTimeEntry.spentDate,
         }
     });
 
