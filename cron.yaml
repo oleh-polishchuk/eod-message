@@ -2,3 +2,6 @@ cron:
   - description: "Send EOD message"
     url: /api/message/send
     schedule: every mon,tue,wed,thu,fri 17:00
+  - description: "Send time entries to Redmine"
+    url: /api/reports/send
+    schedule: every mon,tue,wed,thu,fri 17:00
