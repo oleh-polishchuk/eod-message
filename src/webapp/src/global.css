@@ -1,0 +1,13 @@
+html, body {
+    position: relative;
+    background: #FAFAFA;
+    height: 100%;
+}
+
+.container {
+    display: block;
+    max-width: 1000px;
+    height: 100%;
+    margin: 0 auto;
+    padding: 0 15px;
+}

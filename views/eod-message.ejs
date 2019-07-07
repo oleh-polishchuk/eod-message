@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Working Status</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/png" href="/public/images/favicon.png"/>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500"
+          rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #F4F4F4;
+        }
+
+        .page {
+            padding: 25px 30px;
+        }
+
+        .eod {
+            background: #FFFFFF;
+            border: 1px solid #E5E5E5;
+            box-sizing: border-box;
+            box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.25);
+            border-radius: 35px;
+        }
+
+        .eod__container {
+            display: flex;
+            padding: 30px 0;
+        }
+
+        .eod__timer {
+            min-width: 350px;
+            padding: 0 30px;
+            border-right: 1px solid #F4F4F4;
+        }
+
+        .eod__post {
+            display: flex;
+            flex-grow: 1;
+            padding: 0 30px;
+            border-right: 1px solid #F4F4F4;
+            overflow: hidden;
+        }
+
+        .eod__post:last-child {
+            border: none;
+        }
+
+        .timer {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .timer__title {
+            font-family: Roboto, serif;
+            font-style: normal;
+            font-weight: 300;
+            font-size: 18px;
+            line-height: 17px;
+            text-align: center;
+            letter-spacing: 0.08em;
+            color: #000000;
+            margin: 0 0 20px 0;
+        }
+
+        .timer__time {
+            font-family: -apple-system, system-ui, BlinkMacSystemFont;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 70px;
+            line-height: 66px;
+            text-align: center;
+            letter-spacing: 0.08em;
+            color: #000000;
+            margin: 0 0 22px 0;
+        }
+
+        .timer__schedule-time {
+            font-family: Roboto, serif;
+            font-style: normal;
+            font-weight: 300;
+            font-size: 12px;
+            line-height: 11px;
+            text-align: center;
+            letter-spacing: 0.08em;
+            color: #000000;
+        }
+
+        .post {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            overflow: scroll;
+        }
+
+        .post__author {
+            margin: 0 0 20px 0;
+        }
+
+        .post__message {
+            font-family: Roboto;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 12px;
+            line-height: 11px;
+            letter-spacing: 0.08em;
+            color: #000000;
+            white-space: pre-line;
+        }
+
+        .author {
+            display: flex;
+        }
+
+        .author__icon {
+            margin: 0 10px 0 0;
+        }
+
+        .author__caption {
+        }
+
+        .author__name {
+            font-family: Roboto, serif;
+            font-style: normal;
+            font-weight: 300;
+            font-size: 14px;
+            line-height: 13px;
+            letter-spacing: 0.08em;
+            color: #000000;
+            margin: 8px 0 6px 0;
+        }
+
+        .author__position {
+            font-family: Roboto, serif;
+            font-style: normal;
+            font-weight: 300;
+            font-size: 14px;
+            line-height: 13px;
+            letter-spacing: 0.08em;
+            color: #848484;
+        }
+
+        @media (max-width: 768px) {
+            .eod__container {
+                flex-direction: column;
+            }
+
+            .eod__timer {
+                border-right: none;
+                border-bottom: 1px solid #F4F4F4;
+                padding: 0 30px 30px 30px;
+                min-width: initial;
+            }
+
+            .eod__post {
+                padding: 30px 30px 0 30px;
+            }
+
+            .timer__time {
+                font-size: calc(100vw / 10);
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="page">
+        <section class="eod">
+            <div class="eod__container">
+                <div class="eod__timer">
+                    <section class="timer">
+                        <div class="timer__title">Time to Send</div>
+                        <div class="timer__time" id="timerTime">00:00:00</div>
+                        <div class="timer__schedule-time">Daily at 18:00</div>
+                    </section>
+                </div>
+                <div class="eod__post">
+                    <section class="post">
+                        <div class="post__author">
+                            <section class="author">
+                                <img class="author__icon"
+                                     src="public/images/author.jpg"
+                                     alt="Author"/>
+                                <div class="author__caption">
+                                    <div class="author__name">Oleh Polishchuk
+                                    </div>
+                                    <div class="author__position">Frontend
+                                        Developer at Nectarsleep
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                        <pre class="post__message"><%= message.text %></pre>
+                    </section>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const formatTime = (time) => {
+            if (time < 10) {
+                time = `0${time}`;
+            }
+            return time;
+        };
+
+        const countDownDate = new Date();
+        countDownDate.setHours(20, 0, 0);
+
+        const interval = setInterval(function () {
+            const now = new Date().getTime();
+            const distance = countDownDate.getTime() - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("timerTime").innerHTML = `${ formatTime(hours) }:${ formatTime(minutes) }:${ formatTime(seconds) }`;
+
+            if (distance < 0) {
+                clearInterval(interval);
+                document.getElementById("timerTime").innerHTML = "SENT";
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

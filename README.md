@@ -20,7 +20,7 @@ To login in gcloud
     
 To change current project
 
-    gcloud config set project eod-slack-message
+    gcloud config set project eod-message
     
 To deploy project
 

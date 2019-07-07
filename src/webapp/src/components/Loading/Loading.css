@@ -1,0 +1,46 @@
+.loading {
+}
+
+.loading__label {
+    position: fixed;
+    top: 70px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-family: 'SF Pro Text', Helvetica, serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 21px;
+    letter-spacing: -0.02em;
+
+    color: #8E8E93;
+}
+
+.loading__content {
+}
+
+.loading__content--active {
+    filter: blur(15px);
+    transition: all .1s linear;
+}
+
+.loading__indicator {
+    width: 20px;
+    height: 20px;
+    margin: 0 15px;
+    animation: rotate .5s infinite;
+    animation-timing-function: linear;
+}
+
+@keyframes rotate {
+    100% {
+        transform: rotate(-360deg);
+    }
+}
