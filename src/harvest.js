@@ -1,4 +1,5 @@
 const axios = require('axios');
+const moment = require('moment');
 
 module.exports.getTimeEntries = async function getTimeEntries(from) {
     const res = await axios
@@ -6,6 +7,7 @@ module.exports.getTimeEntries = async function getTimeEntries(from) {
             params: {
                 from: from,
                 to: from,
+                user_id: process.env.HARVEST_USER_ID,
             },
             headers: {
                 'Authorization': `Bearer ${process.env.HARVEST_BEARER_TOCKEN}`,
@@ -15,7 +17,7 @@ module.exports.getTimeEntries = async function getTimeEntries(from) {
         });
 
     if (!res || res.status !== 200) {
-        throw new Error(`==> Can not fetch time entries from api.harvestapp.com!`);
+        throw new Error(`Can not fetch time entries from api.harvestapp.com!`);
     }
 
     const timeEntries = res.data.time_entries
@@ -32,9 +34,21 @@ module.exports.getTimeEntries = async function getTimeEntries(from) {
         })
         .filter(timeEntry => timeEntry.notes && timeEntry.id && timeEntry.permalink);
 
-    if (!timeEntries || (Array.isArray(timeEntries) && !timeEntries.length)) {
-        throw new Error(`==> There are no time entries from ${from}`);
+    const uniqueTimeEntries = Object.values(timeEntries.reduce((joinedTimeEntries, timeEntry) => {
+        if (joinedTimeEntries[timeEntry.name]) {
+            joinedTimeEntries[timeEntry.name].hours = moment
+                .duration(joinedTimeEntries[timeEntry.name].hours, 'hours')
+                .add(timeEntry.hours, 'hours')
+                .asHours();
+        } else {
+            joinedTimeEntries[timeEntry.name] = timeEntry;
+        }
+        return joinedTimeEntries;
+    }, {}));
+
+    if (!uniqueTimeEntries || (Array.isArray(uniqueTimeEntries) && !uniqueTimeEntries.length)) {
+        throw new Error(`There are no time entries from ${from}`);
     }
 
-    return timeEntries;
+    return uniqueTimeEntries;
 };

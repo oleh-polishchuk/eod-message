@@ -1,12 +1,14 @@
-import React, { Fragment } from 'react';
+import React from 'react';
+import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
 import './Integration.css';
 
 const Integration = ({ integration }) => (
-    <a
+    <Link
+        to={integration.url}
         className="integration"
-        href={integration.url}
     >
+
         <div className="integration__icons">
             {integration.icons.map((icon, index) => (
                 <div key={index} className="integration__icon-group">
@@ -25,7 +27,7 @@ const Integration = ({ integration }) => (
         </div>
         <div className="integration__title">{integration.title}</div>
         <div className="integration__description">{integration.description}</div>
-    </a>
+    </Link>
 );
 
 Integration.propTypes = {

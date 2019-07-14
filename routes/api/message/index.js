@@ -4,9 +4,9 @@ const api = require("../../../src/api");
 
 router.get('/', (req, res) => {
     api.getEODMessage(req.query.from).then(message => {
-        res.send(`<pre>${ message.text }</pre>`)
+        res.send(message && message.text)
     }).catch(reason => {
-        res.send(reason)
+        res.send(reason && reason.message)
     })
 });
 

@@ -1,0 +1,20 @@
+.page__label {
+    font-family: Roboto, serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 21px;
+    color: #000000;
+    margin-bottom: 15px;
+}
+
+.page__integrations {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 750px) {
+    .page__integrations {
+        justify-content: center;
+    }
+}
